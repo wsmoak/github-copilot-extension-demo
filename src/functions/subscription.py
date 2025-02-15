@@ -2,14 +2,13 @@ import requests
 import json
 import os
 
-def create_subscription(product_id: str, customer_email: str, payment_details: dict):
+def create_subscription(product_id: str, customer_email: str):
     """
-    Creates a new subscription in Maxio/Chargify
+    Creates a new subscription in Maxio/Chargify using remittance as the payment collection method
     
     Args:
         product_id: The ID of the product to subscribe to
         customer_email: The customer's email address
-        payment_details: Dictionary containing payment information
     
     Returns:
         dict: The created subscription details
@@ -31,7 +30,7 @@ def create_subscription(product_id: str, customer_email: str, payment_details: d
             'customer_attributes': {
                 'email': customer_email
             },
-            'payment_profile_attributes': payment_details
+            'payment_collection_method': 'remittance'
         }
     }
     

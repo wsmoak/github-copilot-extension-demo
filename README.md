@@ -1,6 +1,6 @@
 # Maxio Copilot Extension
 
-This GitHub Copilot Extension allows you to create subscriptions in Maxio (formerly Chargify) directly through GitHub Copilot Chat.
+This GitHub Copilot Extension allows you to create subscriptions in Maxio (formerly Chargify) directly through GitHub Copilot Chat. It uses remittance as the payment collection method.
 
 ## Setup
 
@@ -45,17 +45,7 @@ curl -X POST http://localhost:5000/create_subscription \
   -H "Content-Type: application/json" \
   -d '{
     "product_id": "prod_123",
-    "customer_email": "customer@example.com",
-    "payment_details": {
-      "credit_card_attributes": {
-        "first_name": "John",
-        "last_name": "Doe",
-        "card_number": "4111111111111111",
-        "expiration_month": "12",
-        "expiration_year": "2025",
-        "cvv": "123"
-      }
-    }
+    "customer_email": "customer@example.com"
   }'
 ```
 

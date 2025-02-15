@@ -32,10 +32,9 @@ def handle_create_subscription():
         # Extract parameters from request
         product_id = data.get('product_id')
         customer_email = data.get('customer_email')
-        payment_details = data.get('payment_details')
         
         # Validate required parameters
-        if not all([product_id, customer_email, payment_details]):
+        if not all([product_id, customer_email]):
             return jsonify({
                 "error": "Missing required parameters"
             }), 400
@@ -43,8 +42,7 @@ def handle_create_subscription():
         # Call the subscription creation function
         result = create_subscription(
             product_id=product_id,
-            customer_email=customer_email,
-            payment_details=payment_details
+            customer_email=customer_email
         )
         
         return jsonify(result)
