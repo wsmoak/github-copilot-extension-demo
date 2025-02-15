@@ -1,0 +1,31 @@
+name: maxio-subscription
+description: Creates subscriptions in Maxio/Chargify
+functions:
+  - name: create_subscription
+    description: Creates a new subscription
+    parameters:
+      - name: product_id
+        type: string
+        description: The ID of the product to subscribe to
+      - name: customer_email
+        type: string
+        description: The customer's email address
+      - name: payment_details
+        type: object
+        description: Dictionary containing payment information including credit card or bank account details
+    returns:
+      type: object
+      description: The created subscription details
+    examples:
+      - name: "Create subscription with credit card"
+        parameters:
+          product_id: "prod_123"
+          customer_email: "customer@example.com"
+          payment_details:
+            credit_card_attributes:
+              first_name: "John"
+              last_name: "Doe"
+              card_number: "4111111111111111"
+              expiration_month: "12"
+              expiration_year: "2025"
+              cvv: "123"

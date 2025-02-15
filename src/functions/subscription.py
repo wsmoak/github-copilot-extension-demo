@@ -1,0 +1,56 @@
+import requests
+import json
+import os
+
+def create_subscription(product_id: str, customer_email: str, payment_details: dict):
+    """
+    Creates a new subscription in Maxio/Chargify
+    
+    Args:
+        product_id: The ID of the product to subscribe to
+        customer_email: The customer's email address
+        payment_details: Dictionary containing payment information
+    
+    Returns:
+        dict: The created subscription details
+    """
+    api_key = os.environ.get('MAXIO_API_KEY')
+    subdomain = os.environ.get('MAXIO_SUBDOMAIN')
+    
+    if not api_key or not subdomain:
+        raise ValueError("MAXIO_API_KEY and MAXIO_SUBDOMAIN environment variables must be set")
+
+    headers = {
+        'Authorization': f'Bearer {api_key}',
+        'Content-Type': 'application/json'
+    }
+    
+    payload = {
+        'subscription': {
+            'product_id': product_id,
+            'customer_attributes': {
+                'email': customer_email
+            },
+            'payment_profile_attributes': payment_details
+        }
+    }
+    
+    response = requests.post(
+        f'https://{subdomain}.chargify.com/subscriptions.json',
+        headers=headers,
+        json=payload
+    )
+    
+    try:
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        error_message = f"Error creating subscription: {str(e)}"
+        if response.text:
+            try:
+                error_details = response.json()
+                error_message += f"\nDetails: {json.dumps(error_details, indent=2)}"
+            except json.JSONDecodeError:
+                error_message += f"\nResponse: {response.text}"
+        raise Exception(error_message)
+        
+    return response.json()
