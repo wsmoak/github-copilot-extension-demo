@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
+import requests
 from src.functions.subscription import create_subscription
 import yaml
 import os
@@ -11,6 +12,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 app = Flask(__name__)
+
+# Add these constants after the app initialization
+GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID')
+GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
 
 # Load skillset definition
 with open(os.path.join(BASE_DIR, 'src', 'skillset.yaml'), 'r') as file:
@@ -58,6 +63,23 @@ def handle_create_subscription():
         return jsonify({
             "error": str(e)
         }), 500
+
+@app.route('/')
+def handle_github_callback():
+    """Handle GitHub OAuth callback and base URL requests"""
+    # Check if this is a callback from GitHub OAuth
+    code = request.args.get('code')
+
+    if code:
+        return jsonify({
+            "message": "Authorization successful",
+            "token": "abc123"
+        })
+    else:
+        return jsonify({
+            "message": "Welcome to the GitHub App",
+            "status": "running"
+        })
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
