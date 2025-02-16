@@ -1,5 +1,5 @@
 [project]
-name = "maxio-copilot-extension"
+name = "github-copilot-extension-demo"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
