@@ -44,8 +44,10 @@ curl http://localhost:5000/manifest
 curl -X POST http://localhost:5000/create_subscription \
   -H "Content-Type: application/json" \
   -d '{
-    "product_id": "prod_123",
-    "customer_email": "customer@example.com"
+    "product_id": "6590662",
+    "customer_email": "customer@example.com",
+    "first_name": "John",
+    "last_name": "Doe"
   }'
 ```
 

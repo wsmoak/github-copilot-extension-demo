@@ -10,6 +10,12 @@ functions:
       - name: customer_email
         type: string
         description: The customer's email address
+      - name: first_name
+        type: string
+        description: The customer's first name
+      - name: last_name
+        type: string
+        description: The customer's last name
     returns:
       type: object
       description: The created subscription details
@@ -18,3 +24,5 @@ functions:
         parameters:
           product_id: "prod_123"
           customer_email: "customer@example.com"
+          first_name: "John"
+          last_name: "Doe"
