@@ -7,10 +7,13 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
+# Define base directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 app = Flask(__name__)
 
 # Load skillset definition
-with open('src/skillset.yaml', 'r') as file:
+with open(os.path.join(BASE_DIR, 'src', 'skillset.yaml'), 'r') as file:
     skillset = yaml.safe_load(file)
 
 @app.route('/health', methods=['GET'])
