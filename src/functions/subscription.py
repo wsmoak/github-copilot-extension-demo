@@ -5,25 +5,26 @@ import os
 def create_subscription(product_id: str, customer_email: str):
     """
     Creates a new subscription in Maxio/Chargify using remittance as the payment collection method
-    
+
     Args:
         product_id: The ID of the product to subscribe to
         customer_email: The customer's email address
-    
+
     Returns:
         dict: The created subscription details
     """
     api_key = os.environ.get('MAXIO_API_KEY')
     subdomain = os.environ.get('MAXIO_SUBDOMAIN')
-    
+
     if not api_key or not subdomain:
         raise ValueError("MAXIO_API_KEY and MAXIO_SUBDOMAIN environment variables must be set")
 
     headers = {
-        'Authorization': f'Bearer {api_key}',
         'Content-Type': 'application/json'
     }
-    
+
+    auth = (api_key, 'x')
+
     payload = {
         'subscription': {
             'product_id': product_id,
@@ -33,13 +34,14 @@ def create_subscription(product_id: str, customer_email: str):
             'payment_collection_method': 'remittance'
         }
     }
-    
+
     response = requests.post(
         f'https://{subdomain}.chargify.com/subscriptions.json',
         headers=headers,
+        auth=auth,
         json=payload
     )
-    
+
     try:
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
@@ -51,5 +53,5 @@ def create_subscription(product_id: str, customer_email: str):
             except json.JSONDecodeError:
                 error_message += f"\nResponse: {response.text}"
         raise Exception(error_message)
-        
+
     return response.json()
